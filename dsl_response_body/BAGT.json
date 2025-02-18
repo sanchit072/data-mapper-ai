@@ -1,0 +1,235 @@
+{
+    "format": "JSON",
+    "conditionalMappingList": [
+      {
+        "mappingList": [
+          {
+            "name": "latitude",
+            "conditionList": [
+              {
+                "container": {
+                  "dataType": "STRING",
+                  "value": {
+                    "base": "INTERACTION_1_RESPONSE_BODY",
+                    "xpath": "record.latitude"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "longitude",
+            "conditionList": [
+              {
+                "container": {
+                  "dataType": "STRING",
+                  "value": {
+                    "base": "INTERACTION_1_RESPONSE_BODY",
+                    "xpath": "record.longitude"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "utcTimestamp",
+            "conditionList": [
+              {
+                "container": {
+                  "dataType": "STRING",
+                  "value": {
+                    "base": "INTERACTION_1_RESPONSE_BODY",
+                    "xpath": "record.utcTimestamp"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "customerId",
+            "conditionList": [
+              {
+                "container": {
+                  "dataType": "STRING",
+                  "value": {
+                    "base": "INTERACTION_1_RESPONSE_BODY",
+                    "xpath": "record.customerId"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "eventType",
+            "conditionList": [
+              {
+                "container": {
+                  "dataType": "STRING",
+                  "value": {
+                    "base": "INTERACTION_1_RESPONSE_BODY",
+                    "xpath": "record.eventType"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "carrierIdentifier",
+            "conditionList": [
+              {
+                "container": {
+                  "dataType": "OBJECT",
+                  "children": [
+                    {
+                      "name": "type",
+                      "conditionList": [
+                        {
+                          "container": {
+                            "dataType": "STRING",
+                            "value": {
+                              "constantValue": "SCAC"
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "name": "value",
+                      "conditionList": [
+                        {
+                          "container": {
+                            "dataType": "STRING",
+                            "value": {
+                              "constantValue": "BAGT"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "name": "eventStopNumber",
+            "conditionList": [
+              {
+                "container": {
+                  "dataType": "STRING",
+                  "value": {
+                    "base": "INTERACTION_1_RESPONSE_BODY",
+                    "xpath": "record.eventStopNumber"
+                  }
+                },
+                "condition": {
+                  "operator": "HAS_CONTENT",
+                  "conditionParamList": [
+                    {
+                      "container": {
+                        "dataType": "STRING",
+                        "value": {
+                          "base": "INTERACTION_1_RESPONSE_BODY",
+                          "xpath": "record.eventStopNumber"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "name": "shipmentIdentifiers",
+            "conditionList": [
+              {
+                "container": {
+                  "dataType": "LIST",
+                  "children": [
+                    {
+                      "name": "item0",
+                      "conditionList": [
+                        {
+                          "container": {
+                            "dataType": "OBJECT",
+                            "children": [
+                              {
+                                "name": "type",
+                                "conditionList": [
+                                  {
+                                    "container": {
+                                      "dataType": "STRING",
+                                      "value": {
+                                        "constantValue": "BILL_OF_LADING"
+                                      }
+                                    }
+                                  }
+                                ]
+                              },
+                              {
+                                "name": "value",
+                                "conditionList": [
+                                  {
+                                    "container": {
+                                      "dataType": "STRING",
+                                      "value": {
+                                        "base": "INTERACTION_1_RESPONSE_BODY",
+                                        "xpath": "record.shipmentidentifier"
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "name": "item1",
+                      "conditionList": [
+                        {
+                          "container": {
+                            "dataType": "OBJECT",
+                            "children": [
+                              {
+                                "name": "type",
+                                "conditionList": [
+                                  {
+                                    "container": {
+                                      "dataType": "STRING",
+                                      "value": {
+                                        "constantValue": "ORDER"
+                                      }
+                                    }
+                                  }
+                                ]
+                              },
+                              {
+                                "name": "value",
+                                "conditionList": [
+                                  {
+                                    "container": {
+                                      "dataType": "STRING",
+                                      "value": {
+                                        "base": "INTERACTION_1_RESPONSE_BODY",
+                                        "xpath": "record.shipmentidentifier"
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
