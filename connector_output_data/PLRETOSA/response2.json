@@ -1,0 +1,18 @@
+{
+    "latitude": "0",
+    "longitude": "0",
+    "utcTimestamp": "2024-10-29T00:00:00",
+    "eventStopNumber": 2,
+    "eventType": "DELIVERED",
+    "customerId": "3766",
+    "carrierIdentifier": {
+      "value": "PLRETOSA",
+      "type": "P44_EU"
+    },
+    "shipmentIdentifiers": [
+      {
+        "value": "12410114",
+        "type": "BILL_OF_LADING"
+      }
+    ]
+  }

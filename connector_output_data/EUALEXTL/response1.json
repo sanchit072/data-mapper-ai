@@ -1,0 +1,26 @@
+{
+    "latitude": "0",
+    "longitude": "0",
+    "utcTimestamp": "2024-11-27T17:00:00Z",
+    "eventType": "ARRIVED_AT_TERMINAL",
+    "carrierIdentifier": {
+      "type": "P44_EU",
+      "value": "ROINTERA"
+    },
+    "shipmentIdentifiers": [
+      {
+        "value": "RO00284060",
+        "type": "BILL_OF_LADING"
+      },
+      {
+        "type": "ORDER",
+        "value": "5002638154"
+      }
+    ],
+    "shipmentStops": [
+      {
+        "carrierSuppliedEta": "12/2/2024T9:00:00Z",
+        "stopNumber": 1
+      }
+    ]
+  }

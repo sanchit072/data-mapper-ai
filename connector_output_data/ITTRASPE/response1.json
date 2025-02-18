@@ -1,0 +1,17 @@
+{
+    "latitude": "51.321997",
+    "longitude": "6.952918",
+    "utcTimestamp": "2024-11-26T15:06:00",
+    "eventType": "DEPARTED",
+    "carrierIdentifier": {
+      "type": "P44_EU",
+      "value": "ITTRASPE"
+    },
+    "eventStopNumber": 1,
+    "shipmentIdentifiers": [
+      {
+        "type": "BILL_OF_LADING",
+        "value": "12529597"
+      }
+    ]
+  }

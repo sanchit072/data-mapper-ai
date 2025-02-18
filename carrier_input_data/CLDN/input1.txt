@@ -1,0 +1,2 @@
+Unit ID,CLdN Reference,CLdN Customer Number,CLdN Customer Code,Customer Reference,City,PostCode,Country,Location,Date,Time Start,Time End,Event
+CLDU970787/7,24064396,2211,UNILEVBV,156486213 + 4249946262,Longueil-Sainte-Marie + Crépy-en-Valois,60126 + 60800,Frankrijk,Kuehne & Nagel + FM Logistic,12/19/2024,12:40:00,,Unload Start

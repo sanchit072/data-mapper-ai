@@ -1,0 +1,2 @@
+customerAccount,carrier ID,OrderNumber,BOL,statusCode,shipmentStopNumber,timestamp,carrierSuppliedEta,hour of ETA
+4189,ROINTERA,5002638154,RO00284060 ,ARRIVED_AT_TERMINAL,1,2024-11-27T17:00:00Z,12/2/2024,9:00

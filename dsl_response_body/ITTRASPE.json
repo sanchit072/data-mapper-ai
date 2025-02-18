@@ -1,0 +1,218 @@
+{
+    "format": "JSON",
+    "conditionalMappingList": [
+      {
+        "mappingList": [
+          {
+            "name": "latitude",
+            "includeInOutput": true,
+            "conditionList": [
+              {
+                "container": {
+                  "dataType": "STRING",
+                  "value": {
+                    "base": "INTERACTION_1_RESPONSE_BODY",
+                    "xpath": "record.latitude"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "longitude",
+            "includeInOutput": true,
+            "conditionList": [
+              {
+                "container": {
+                  "dataType": "STRING",
+                  "value": {
+                    "base": "INTERACTION_1_RESPONSE_BODY",
+                    "xpath": "record.longitude"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "utcTimestamp",
+            "includeInOutput": true,
+            "conditionList": [
+              {
+                "container": {
+                  "dataType": "STRING",
+                  "value": {
+                    "base": "INTERACTION_1_RESPONSE_BODY",
+                    "xpath": "record.UTCtimestamp"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "eventType",
+            "includeInOutput": true,
+            "conditionList": [
+              {
+                "container": {
+                  "dataType": "STRING",
+                  "value": {
+                    "base": "INTERACTION_1_RESPONSE_BODY",
+                    "xpath": "record.eventType"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "carrierIdentifier",
+            "includeInOutput": true,
+            "conditionList": [
+              {
+                "container": {
+                  "dataType": "OBJECT",
+                  "children": [
+                    {
+                      "name": "type",
+                      "includeInOutput": true,
+                      "conditionList": [
+                        {
+                          "container": {
+                            "dataType": "STRING",
+                            "value": {
+                              "constantValue": "P44_EU"
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "name": "value",
+                      "includeInOutput": true,
+                      "conditionList": [
+                        {
+                          "container": {
+                            "dataType": "STRING",
+                            "value": {
+                              "constantValue": "ITTRASPE"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "name": "eventStopNumber",
+            "includeInOutput": true,
+            "conditionList": [
+              {
+                "container": {
+                  "dataType": "INT",
+                  "value": {
+                    "base": "INTERACTION_1_RESPONSE_BODY",
+                    "xpath": "record.eventStopNumber"
+                  }
+                },
+                "condition": {
+                  "operator": "HAS_CONTENT",
+                  "conditionParamList": [
+                    {
+                      "container": {
+                        "dataType": "INT",
+                        "value": {
+                          "base": "INTERACTION_1_RESPONSE_BODY",
+                          "xpath": "record.eventStopNumber"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "name": "shipmentIdentifiers",
+            "includeInOutput": true,
+            "conditionList": [
+              {
+                "container": {
+                  "dataType": "LIST",
+                  "children": [
+                    {
+                      "name": "item0",
+                      "includeInOutput": true,
+                      "conditionList": [
+                        {
+                          "container": {
+                            "dataType": "OBJECT",
+                            "children": [
+                              {
+                                "name": "type",
+                                "includeInOutput": true,
+                                "conditionList": [
+                                  {
+                                    "container": {
+                                      "dataType": "STRING",
+                                      "value": {
+                                        "constantValue": "BILL_OF_LADING"
+                                      }
+                                    }
+                                  }
+                                ]
+                              },
+                              {
+                                "name": "value",
+                                "includeInOutput": true,
+                                "conditionList": [
+                                  {
+                                    "container": {
+                                      "dataType": "STRING",
+                                      "value": {
+                                        "transformation": {
+                                          "function": {
+                                            "predefinedFunction": "SUBSTRING"
+                                          },
+                                          "containerList": [
+                                            {
+                                              "dataType": "STRING",
+                                              "value": {
+                                                "base": "INTERACTION_1_RESPONSE_BODY",
+                                                "xpath": "record.ShipmentID"
+                                              }
+                                            },
+                                            {
+                                              "dataType": "INT",
+                                              "value": {
+                                                "constantValue": "4"
+                                              }
+                                            },
+                                            {
+                                              "dataType": "INT",
+                                              "value": {
+                                                "constantValue": "11"
+                                              }
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }

@@ -1,0 +1,21 @@
+{
+    "latitude": "48.910258",
+    "longitude": "-123.740450",
+    "utcTimestamp": "2024-11-08T16:05:00",
+    "customerId": "1660077742633",
+    "eventType": "POSITION",
+    "carrierIdentifier": {
+      "type": "SCAC",
+      "value": "BAGT"
+    },
+    "shipmentIdentifiers": [
+      {
+        "type": "BILL_OF_LADING",
+        "value": "12510264"
+      },
+      {
+        "type": "ORDER",
+        "value": "12510264"
+      }
+    ]
+  }

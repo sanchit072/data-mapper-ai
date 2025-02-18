@@ -1,0 +1,2 @@
+customerId,Shipment ID,eventType,eventStopNumber,latitude,longitude,UTC timestamp,ETA timestamp
+1680,CNH.12529597,DEPARTED,1,51.321997,6.952918,2024-11-26T15:06:00,
