@@ -1,0 +1,425 @@
+openapi: 3.1.0
+info:
+  title: TLStatusUpdate
+  version: 1.0.0
+paths:
+  /target:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TLStatusUpdate'
+components:
+  schemas:
+    TLStatusUpdate:
+      type: object
+      properties:
+        carrierIdentifier:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - SCAC
+                - DOT_NUMBER
+                - MC_NUMBER
+                - P44_EU
+                - SYSTEM
+                - P44_GLOBAL
+            value:
+              type: string
+        shipmentIdentifiers:
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+                enum:
+                  - BILL_OF_LADING
+                  - ORDER
+              value:
+                type: string
+        latitude:
+          type: string
+        longitude:
+          type: string
+        utcTimestamp:
+          type: string
+        equipmentIdentifiers:
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+                enum:
+                  - MOBILE_PHONE_NUMBER
+                  - VEHICLE_ID
+                  - LICENSE_PLATE
+                  - SENSITECH_DEVICE_ID
+                  - EMERSON_DEVICE_ID
+                  - TIVE_DEVICE_ID
+                  - CONTAINER_ID
+              value:
+                type: string
+              shouldDelete:
+                type: boolean
+        shipmentStops:
+          type: array
+          items:
+            type: object
+            properties:
+              stopNumber:
+                type: integer
+              appointmentWindow:
+                type: object
+                properties:
+                  startDateTime:
+                    anyOf:
+                      - type: string
+                      - type: number
+                      - type: integer
+                  endDateTime:
+                    anyOf:
+                      - type: string
+                      - type: number
+                      - type: integer
+                  localTimeZoneIdentifier:
+                    type: string
+              address:
+                type: object
+                properties:
+                  postalCode:
+                    type: string
+                  addressLines:
+                    type: array
+                    items:
+                      type: string
+                  city:
+                    type: string
+                  state:
+                    type: string
+                  country:
+                    type: string
+                    enum:
+                      - US
+                      - CA
+                      - MX
+                      - AG
+                      - BB
+                      - BS
+                      - BZ
+                      - CR
+                      - CU
+                      - DM
+                      - DO
+                      - GD
+                      - GT
+                      - HN
+                      - HT
+                      - JM
+                      - KN
+                      - LC
+                      - NI
+                      - PA
+                      - SV
+                      - TT
+                      - VC
+                      - AI
+                      - AW
+                      - BL
+                      - BM
+                      - BQ
+                      - CW
+                      - GL
+                      - GP
+                      - KY
+                      - MF
+                      - MQ
+                      - MS
+                      - PM
+                      - PR
+                      - SX
+                      - TC
+                      - UM
+                      - VG
+                      - VI
+                      - AT
+                      - BE
+                      - BG
+                      - CY
+                      - CZ
+                      - DK
+                      - DE
+                      - EE
+                      - ES
+                      - FI
+                      - FR
+                      - GB
+                      - GR
+                      - HR
+                      - HU
+                      - IE
+                      - IT
+                      - LT
+                      - LU
+                      - LV
+                      - MT
+                      - NL
+                      - PL
+                      - PT
+                      - RO
+                      - SE
+                      - SK
+                      - SI
+                      - CH
+                      - IS
+                      - LI
+                      - NO
+                      - AL
+                      - ME
+                      - MK
+                      - RS
+                      - TR
+                      - AD
+                      - AX
+                      - BA
+                      - BV
+                      - BY
+                      - FO
+                      - GG
+                      - GI
+                      - IM
+                      - IO
+                      - JE
+                      - MC
+                      - MD
+                      - SJ
+                      - SM
+                      - TF
+                      - UA
+                      - VA
+                      - AE
+                      - AF
+                      - AM
+                      - AZ
+                      - BD
+                      - BH
+                      - BN
+                      - BT
+                      - CN
+                      - GE
+                      - HK
+                      - ID
+                      - IL
+                      - IN
+                      - IQ
+                      - IR
+                      - JO
+                      - JP
+                      - KG
+                      - KH
+                      - KP
+                      - KR
+                      - KW
+                      - KZ
+                      - LA
+                      - LB
+                      - LK
+                      - MM
+                      - MN
+                      - MO
+                      - MV
+                      - MY
+                      - NP
+                      - OM
+                      - PH
+                      - PK
+                      - PS
+                      - QA
+                      - RU
+                      - SA
+                      - SG
+                      - SY
+                      - TH
+                      - TJ
+                      - TL
+                      - TM
+                      - TW
+                      - UZ
+                      - VN
+                      - YE
+                      - AO
+                      - BF
+                      - BI
+                      - BJ
+                      - BW
+                      - CD
+                      - CF
+                      - CG
+                      - CI
+                      - CM
+                      - CV
+                      - DJ
+                      - DZ
+                      - EG
+                      - EH
+                      - ER
+                      - ET
+                      - GA
+                      - GH
+                      - GM
+                      - GN
+                      - GQ
+                      - GW
+                      - HM
+                      - KE
+                      - KM
+                      - LR
+                      - LS
+                      - LY
+                      - MA
+                      - MG
+                      - ML
+                      - MR
+                      - MU
+                      - MW
+                      - MZ
+                      - NA
+                      - NE
+                      - NG
+                      - RE
+                      - RW
+                      - SC
+                      - SD
+                      - SH
+                      - SL
+                      - SN
+                      - SO
+                      - SS
+                      - ST
+                      - SZ
+                      - TD
+                      - TG
+                      - TN
+                      - TZ
+                      - UG
+                      - YT
+                      - ZA
+                      - ZM
+                      - ZW
+                      - AR
+                      - BO
+                      - BR
+                      - CL
+                      - CO
+                      - EC
+                      - FK
+                      - GF
+                      - GS
+                      - GY
+                      - PE
+                      - PY
+                      - SR
+                      - UY
+                      - VE
+                      - AS
+                      - AU
+                      - CC
+                      - CK
+                      - CX
+                      - FJ
+                      - FM
+                      - GU
+                      - KI
+                      - MH
+                      - MP
+                      - NC
+                      - NF
+                      - NR
+                      - NU
+                      - NZ
+                      - PF
+                      - PG
+                      - PN
+                      - PW
+                      - SB
+                      - TK
+                      - TO
+                      - TV
+                      - VU
+                      - WF
+                      - WS
+                      - AQ
+                      - EL
+                      - UK
+                      - XK
+              contact:
+                type: object
+                properties:
+                  companyName:
+                    type: string
+                  contactName:
+                    type: string
+                  phoneNumber:
+                    type: string
+                  phoneNumberCountryCode:
+                    type: string
+                  phoneNumber2:
+                    type: string
+                  phoneNumber2CountryCode:
+                    type: string
+                  email:
+                    type: string
+                  faxNumber:
+                    type: string
+                  faxNumberCountryCode:
+                    type: string
+              stopName:
+                type: string
+              arrivalDateTime:
+                anyOf:
+                  - type: string
+                  - type: number
+                  - type: integer
+              departureDateTime:
+                anyOf:
+                  - type: string
+                  - type: number
+                  - type: integer
+              carrierSuppliedEta:
+                anyOf:
+                  - type: string
+                  - type: number
+                  - type: integer
+        latestTemperature:
+          type: number
+        latestTemperatureUnit:
+          type: string
+          enum:
+            - F
+            - C
+        hoursOfServiceRemaining:
+          type: integer
+        customerId:
+          type: string
+        eventType:
+          type: string
+          enum:
+            - DELIVERED
+            - CANCELLED
+            - DEPARTED
+            - ARRIVED
+            - DISPATCHED
+            - LOADING
+            - UNLOADING
+            - SCANNED_AT_STOP
+            - POSITION
+            - ARRIVED_AT_TERMINAL
+            - DEPARTED_TERMINAL
+            - GATE_IN
+            - GATE_OUT
+        eventStopNumber:
+          type: integer
