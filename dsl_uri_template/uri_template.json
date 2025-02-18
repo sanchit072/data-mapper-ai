@@ -1,0 +1,35 @@
+{
+    "format": "JSON",
+    "conditionalMappingList": [
+      {
+        "mappingList": [
+          {
+            "name": "host",
+            "conditionList": [
+              {
+                "container": {
+                  "dataType": "STRING",
+                  "value": {
+                    "constantValue": "p44-production-us-central1-arcesb"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "remoteLocation",
+            "conditionList": [
+              {
+                "container": {
+                  "dataType": "STRING",
+                  "value": {
+                    "constantValue": "eualex_tl"
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
