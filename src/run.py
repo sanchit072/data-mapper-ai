@@ -1,14 +1,16 @@
-from dsl.mapping import Mapping
+from dsl.dslMapping import DslMapping
 from pydantic import BaseModel, Field
 from typing import List, Optional
 from anthropic import AnthropicVertex
 import json
+import os
 
-prompt = """
+mapping_prompt = """
 This is the carrier file that we have to map to the output format.
 
 <record>
 	<Load>
+        1234
 	</Load>
 	<PRO>
 		119958687
@@ -44,7 +46,6 @@ This is the JSON mapping.
 {
 	"latitude":"44.8833",
 	"longitude":"-93.1333",
-	"utcTimestamp":"2021/11/01T09:45:00",
 	"customerId":"REYROIL",
 	"carrierIdentifier":{
 		"type":"SCAC",
@@ -80,21 +81,72 @@ class VertexStructuredAgent:
                               user_input: str, 
                               response_model: type[BaseModel]) -> BaseModel:
         """Get a response from Claude that conforms to the given Pydantic model"""
+
+        # Load example carrier files from directory
+        carrier_examples = []
+        carrier_input_path = "../carrier_input_data"
+        
+        for root, dirs, files in os.walk(carrier_input_path):
+            for file in files:
+                file_path = os.path.join(root, file)
+                try:
+                    with open(file_path, 'r') as f:
+                        carrier_examples.append(f.read())
+                except Exception as e:
+                    print(f"Error reading file {file_path}: {str(e)}")
+        
+        # Load DSL response body examples
+        dsl_json_examples = []
+        # Get the directory where the script is located
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        dsl_response_body_path = os.path.join(script_dir, "..", "dsl_response_body")
+        
+        for root, dirs, files in os.walk(dsl_response_body_path):
+            for file in files:
+                file_path = os.path.join(root, file)
+                try:
+                    with open(file_path, 'r') as f:
+                        dsl_json_examples.append(f.read())
+                except Exception as e:
+                    print(f"Error reading file {file_path}: {str(e)}")
+
+        connector_output_examples = []
+        # Get the directory where the script is located
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        connector_output_path = os.path.join(script_dir, "..", "connector_output_data")
+
+        for root, dirs, files in os.walk(connector_output_path):
+            for file in files:
+                file_path = os.path.join(root, file)
+                try:
+                    with open(file_path, 'r') as f:
+                        connector_output_examples.append(f.read())
+                except Exception as e:
+                    print(f"Error reading file {file_path}: {str(e)}")
+
+        sample_mapping_for_prompt = ""
+        for index, dsl_json_example in enumerate(dsl_json_examples):
+            sample_mapping_for_prompt += f"Example {index+1}:\n mapping - {connector_output_examples[index]}\n\n json output - {dsl_json_example}\n\n"
         
         prompt = f"""Please provide your response in JSON format that exactly matches this schema:
         
         {format_model_schema(response_model)}
         
-        The JSON must be valid and match all types and constraints.
+        The JSON must be valid and match all types and constraints. A few examples to show you how to do it:
+
+        {sample_mapping_for_prompt}
         
         User input: {user_input}"""
         
         response = self.client.messages.create(
             max_tokens=4096,
-            messages=[{
-                "role": "user",
-                "content": prompt
-            }],
+            system="You are a helpful data mapping AI solution for the supply chain world",
+            messages=[
+                {
+                    "role": "user",
+                    "content": prompt
+                }
+            ],
             model="claude-3-5-sonnet-v2@20241022"
         )
         
@@ -131,8 +183,8 @@ agent = VertexStructuredAgent(
 
 try:
     response = agent.get_structured_response(
-        prompt,
-        Mapping
+        mapping_prompt,
+        DslMapping
     )
     print(response)
         
