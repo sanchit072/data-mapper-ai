@@ -436,21 +436,21 @@ After parsing the data with the schema, the following is the output.
 {
 "carrierIdentifier": {
 "type": "SCAC",
-"value": "JARD"
+"value": "JARD, taken from SCAC field"
 },
 "shipmentIdentifiers": [{
 "type": "ORDER",
-"value": "1008977729"
+"value": "1008977729, taken from ORDER field"
 },
 {
 "type": "BILL_OF_LADING",
-"value": "1008977729"
+"value": "1008977729, taken from BILL_OF_LADING field"
 }
 ],
-"latitude": "47.323672",
-"longitude": "-72.79314",
-"utcTimestamp": "2024-10-07T11:14:12",
-"customerId": "1679",
+"latitude": "47.323672, taken from LATITUDE field",
+"longitude": "-72.79314, taken from LONGITUDE field",
+"utcTimestamp": "2024-10-07T11:14:12, taken from LocatedAt field",
+"customerId": "1679, taken from CustomerAccountNumber field",
 "eventType": "POSITION"
 }
 
@@ -461,27 +461,27 @@ customerAccount;SCAC;PRO;BOL;PO;customerReference;externaReference;statusCode;ci
 
 After parsing the data with the schema, the following is the output. 
 {
-"utcTimestamp":"2024-11-19T11:17:30Z"
+"utcTimestamp":"2024-11-19T11:17:30Z, taken from timestamp field",
 ,
-"customerId":"1676282767962"
+"customerId":"1676282767962, taken from customerAccount field"
 ,
-"latitude":"0"
+"latitude":"0, missing in carrier data so defaulted to 0"
 ,
-"longitude":"0"
+"longitude":"0, missing in carrier data so defaulted to 0"
 ,
 "carrierIdentifier":{
-"value":"EUGSSLTL"
+"value":"EUGSSLTL, taken from SCAC field"
 ,
 "type":"SCAC"
 }
 ,
-"eventType":"ARRIVED"
+"eventType":"ARRIVED, taken from statusCode field"
 ,
 "eventStopNumber":1
 ,
 "shipmentIdentifiers":[
 {
-"value":"13826378"
+"value":"13826378, taken from BOL field"
 ,
 "type":"BILL_OF_LADING"
 }
@@ -489,7 +489,7 @@ After parsing the data with the schema, the following is the output.
 {
 "type":"ORDER"
 ,
-"value":"2007647/2024"
+"value":"2007647/2024, taken from PRO field"
 }
 
 ]

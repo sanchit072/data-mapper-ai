@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 
 from pydantic import BaseModel, Field
 from dsl.dslCondition import DslCondition
@@ -9,7 +9,7 @@ class DslConditionContainer(BaseModel):
     container: "DslContainer" = Field(
         description="Container for the value of a node"
     )
-    condition: DslCondition = Field(
+    condition: Optional[DslCondition] = Field(
         description="DslCondition if true, above container will be applied"
     )
 
