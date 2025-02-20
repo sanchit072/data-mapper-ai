@@ -6,6 +6,7 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import os
 from dotenv import load_dotenv
+from app.config.constants import APP_CONFIG
 
 # Load environment variables from .env file
 load_dotenv()
@@ -62,7 +63,7 @@ def send_email(recipient_email, carrier_name):
         print(f"Failed to send email: {str(e)}")
         return False
 
-def search_carrier_and_send_email(tenant_id, tenant_uuid, user_id, carrier_name=None):
+def search_carrier_and_send_email(carrier_name=None):
     """
     Function to call the external partners search API and optionally send email for specific carrier
     """
@@ -73,13 +74,13 @@ def search_carrier_and_send_email(tenant_id, tenant_uuid, user_id, carrier_name=
         # Headers
         headers = {
             'accept': '*/*',
-            'X-Tenant-Id': tenant_id,
-            'X-Tenant-Uuid': tenant_uuid,
-            'X-User-Id': user_id,
+            'X-Tenant-Id': APP_CONFIG["user"]["tenant_id"],
+            'X-Tenant-Uuid': APP_CONFIG["user"]["tenant_uuid"],
+            'X-User-Id': APP_CONFIG["user"]["user_id"],
             'Content-Type': 'application/json'
         }
         
-        # Request body
+        # Request body with default parameters
         payload = {
             "paginationParameters": {
                 "pageSize": 20,
