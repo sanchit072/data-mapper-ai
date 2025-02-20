@@ -4,9 +4,11 @@ from apis.data_feed_manager import create_connection, update_interaction
 from http import HTTPStatus
 from config.constants import APP_CONFIG
 from flask_socketio import SocketIO
+from src.app_flow import AppFlow
 
 app = Flask(__name__)
 socketio = SocketIO(app, cors_allowed_origins="*", logger=True)
+flow = AppFlow()
 
 @app.route("/")
 def home():
@@ -100,3 +102,12 @@ def handle_message(message):
     print(f"Received: {message}")
     socketio.emit('response', f"Echo: {message}")
     return f"Echo: {message}"
+
+def chat_response():
+    match flow.stage:
+        case "generate_dsl":
+            return flow.generate_dsl()
+        case "initial":
+            return flow.greet_carrier()
+        case _: 
+            return flow.process_response()
