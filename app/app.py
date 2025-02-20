@@ -139,7 +139,10 @@ def create_carrier_trial():
 @socketio.on('message')
 def handle_message(message):
     print(f"Received: {message}")
-    socketio.emit('response', f"Echo: {message}")
+    socketio.emit('message', {
+        'message': chat_response(message),
+        'sender': 'agent'
+    })
     return f"Echo: {message}"
 
 def chat_response(carrier_latest_message):

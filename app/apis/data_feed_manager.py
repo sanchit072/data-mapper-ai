@@ -110,8 +110,8 @@ def create_trial(mock_file_payload=None):
         
         # Request body from APP_CONFIG
         add_trial_payload = APP_CONFIG["trials"]
-        # add_trial_payload["connectionId"] = APP_CONFIG["connection"]["connection_id"]
-        add_trial_payload["connectionId"] = "TL.SHIPMENT_STATUS_CSV.CARRIER_PUSH.IJKL"
+        add_trial_payload["connectionId"] = APP_CONFIG["connection"]["connection_id"]
+        # add_trial_payload["connectionId"] = "TL.SHIPMENT_STATUS_CSV.CARRIER_PUSH.IJKL"
         add_trial_payload["interactions"][0]["mockFilePayload"] = mock_file_payload
 
         # Make the API call
