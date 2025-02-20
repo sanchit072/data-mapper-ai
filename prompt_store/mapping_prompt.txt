@@ -502,21 +502,21 @@ CLDU970787/7,24064396,2211,UNILEVBV,156486213 + 4249946262,Longueil-Sainte-Marie
 
 After parsing the data with the schema, the following is the output. 
 {
-"latitude":"0"
+"latitude":"0, missing in carrier data so defaulted to 0"
 ,
-"longitude":"0"
+"longitude":"0, missing in carrier data so defaulted to 0"
 ,
-"customerId":"UNILEVBV"
+"customerId":"UNILEVBV, taken from CLdN Customer Code field"
 ,
 "carrierIdentifier":{
 "type":"P44_EU"
 ,
-"value":"BECLDNCA"
+"value":"BECLDNCA, given to us by the user/carrier"
 }
 ,
-"utcTimestamp":"2024-12-19T12:40:00"
+"utcTimestamp":"2024-12-19T12:40:00, taken from Date and Time Start field, and changed to yyyy-MM-dd'T'HH:mm:ss"
 ,
-"eventType":"ARRIVED"
+"eventType":"ARRIVED, taken from Event field and translated to internal P44 event type"
 ,
 "eventStopNumber":2
 ,
@@ -524,19 +524,19 @@ After parsing the data with the schema, the following is the output.
 {
 "type":"ORDER"
 ,
-"value":"156486213 + 4249946262"
+"value":"156486213 + 4249946262, taken from Customer Reference field"
 }
 ,
 {
 "type":"BILL_OF_LADING"
 ,
-"value":"156486213 + 4249946262"
+"value":"156486213 + 4249946262, taken from Customer Reference field"
 }
 
 ]
 }
 
-Generate the payload for this csv: -
+Generate the payload for this csv like the given examples: -
 
 customerId;Shipment ID;eventType;eventStopNumber;latitude;longitude;timestamp;ETA
 3766;12410114;DELIVERED;2;;;2024-10-29T00:00:00
