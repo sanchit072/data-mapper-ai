@@ -128,3 +128,40 @@ def create_trial(mock_file_payload=None):
         return {
             'error': f'Internal server error: {str(e)}'
         }, HTTPStatus.INTERNAL_SERVER_ERROR
+
+def publish_connection():
+    """
+    Publish a connection using the data feed manager API
+    """
+    try:
+        # API endpoint
+        publish_connection_url = data_feed_manager_base_url + f"onramp/staged/connections/{APP_CONFIG['connection']['connection_id']}/publish"
+        
+        # Headers
+        headers = {
+            'accept': 'application/json',
+            'X-User-Id': APP_CONFIG["user"]["user_id"],
+            'Content-Type': 'application/json'
+        }
+        
+        # Request body
+        payload = {
+            "makeStable": True,
+            "changeMessage": "Connection published via Data Mapper AI",
+            "approvedBy": APP_CONFIG["user"]["user_id"]
+        }
+
+        # Make the API call
+        response = requests.post(publish_connection_url, headers=headers, json=payload)
+        response.raise_for_status()
+        
+        return response.json()
+
+    except requests.exceptions.RequestException as e:
+        return {
+            'error': f'API request failed: {str(e)}'
+        }, HTTPStatus.INTERNAL_SERVER_ERROR
+    except Exception as e:
+        return {
+            'error': f'Internal server error: {str(e)}'
+        }, HTTPStatus.INTERNAL_SERVER_ERROR
