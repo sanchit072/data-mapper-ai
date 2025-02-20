@@ -72,17 +72,17 @@ def update_interaction(response_body_template_value=None):
         }
         
         # Get current interaction metadata
-        interaction_metadata = APP_CONFIG["interaction"]["metaData"]
+        interaction_metadata = APP_CONFIG["interaction"]
         
         # Update template values if provided
         if response_body_template_value:
-            interaction_metadata["responseBodyTemplate"]["dslTemplateValue"] = response_body_template_value
+            interaction_metadata["metaData"]["responseBodyTemplate"]["dslTemplateValue"] = response_body_template_value
         
 
         # Make the API call
         response = requests.put(update_interaction_url, headers=headers, json=interaction_metadata)
         response.raise_for_status()
-        
+        print(response.json())
         return response.json()
 
     except requests.exceptions.RequestException as e:
