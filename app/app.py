@@ -103,10 +103,9 @@ def handle_message(message):
     socketio.emit('response', f"Echo: {message}")
     return f"Echo: {message}"
 
-def chat_response():
-    match flow.stage:
-        case "generate_dsl":
-            return flow.generate_dsl()
+def chat_response(carrier_latest_message):
+    flow.carrier_latest_message = carrier_latest_message
+    match flow.determine_stage():
         case "initial":
             return flow.greet_carrier()
         case _: 
