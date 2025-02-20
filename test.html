@@ -9,16 +9,16 @@
     <div id="messages"></div>
 
     <script>
-        const socket = io('http://localhost:5000');
+        const socket = io('http://10.44.78.1:5000');
 
         socket.on('connect', () => {
             console.log('Connected to server');
             document.getElementById('messages').innerHTML += '<p>Connected to server</p>';
         });
 
-        socket.on('response', (data) => {
+        socket.on('message', (data) => {
             console.log('Received:', data);
-            document.getElementById('messages').innerHTML += `<p>Received: ${data}</p>`;
+            document.getElementById('messages').innerHTML += `<p>Received: ${data.message}</p>`;
         });
 
         function sendMessage() {

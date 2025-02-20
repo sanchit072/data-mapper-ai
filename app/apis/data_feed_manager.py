@@ -93,3 +93,40 @@ def update_interaction(response_body_template_value=None):
         return {
             'error': f'Internal server error: {str(e)}'
         }, HTTPStatus.INTERNAL_SERVER_ERROR
+
+def create_trial():
+    """
+    Create a trial for a connection using the data feed manager API
+    """
+    try:
+        # API endpoint
+        create_trial_url = data_feed_manager_base_url + f"onramp/staged/connections/{APP_CONFIG['connection']['connection_id']}/trials"
+        
+        # Headers
+        headers = {
+            'accept': 'application/json',
+            'X-User-Id': APP_CONFIG["user"]["user_id"],
+            'Content-Type': 'application/json'
+        }
+        
+        # Request body from APP_CONFIG
+        payload = {
+            "description": APP_CONFIG["trials"]["description"],
+            "displayName": APP_CONFIG["trials"]["displayName"],
+            "interactions": APP_CONFIG["trials"]["interactions"]
+        }
+
+        # Make the API call
+        response = requests.post(create_trial_url, headers=headers, json=payload)
+        response.raise_for_status()
+        
+        return response.json()
+
+    except requests.exceptions.RequestException as e:
+        return {
+            'error': f'API request failed: {str(e)}'
+        }, HTTPStatus.INTERNAL_SERVER_ERROR
+    except Exception as e:
+        return {
+            'error': f'Internal server error: {str(e)}'
+        }, HTTPStatus.INTERNAL_SERVER_ERROR

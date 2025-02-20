@@ -146,5 +146,15 @@ APP_CONFIG = {
         },
         "direction": "BOTH",
         "httpRedirectPolicy": "NORMAL"
+    },
+    "trials": {
+        "description": "",
+        "displayName": "Data Mapper AI Test",
+        "interactions": [
+            {
+                "requestData":"customerId,shipmentidentifier,eventType,latitude,longitude,utcTimestamp,eventStopNumber,ETA\n1660077742633,12510264,POSITION,48.910258,-123.740450,2024-11-08T16:05:00, ,2024-11-08T12:51:00"
+            }
+        ]
     }
+
 } 
