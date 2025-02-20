@@ -139,9 +139,15 @@ def chat_response(carrier_latest_message):
     match flow.determine_stage():
         case "initial":
             return flow.greet_carrier()
-        case _: 
-            return flow.process_response()
-    socketio.emit('message', {
-        'message': f"Echo: {message}",
-        'sender': 'agent'
-    })
+        case "ask_permission_for_sftp_server":
+            return flow.ask_permission_for_sftp_server()
+        case "validate_credentials":
+            return flow.validate_credentials()
+        case "get_carrier_file":
+            return flow.get_carrier_file()
+        case "generate_mapping":
+            return flow.generate_mapping()
+        case "validate_mapping":
+            return flow.validate_mapping()
+        case "generate_dsl":
+            return flow.generate_dsl()
