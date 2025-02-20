@@ -1,7 +1,7 @@
 from typing import Optional
 
 from pydantic import BaseModel, Field
-from dsl.dslConditionalMapping import DslConditionalMapping
+from src.dsl.dslConditionalMapping import DslConditionalMapping
 from typing import List
 
 # Pydantic

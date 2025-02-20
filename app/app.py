@@ -1,10 +1,18 @@
 from flask import Flask, request, jsonify
-from apis.data_dashboard import search_carrier_and_send_email
-from apis.data_feed_manager import create_connection, update_interaction, create_trial
+from app.apis.data_dashboard import search_carrier_and_send_email
+from app.apis.data_feed_manager import create_connection, update_interaction, create_trial
 from http import HTTPStatus
-from config.constants import APP_CONFIG
+from app.config.constants import APP_CONFIG
 from flask_socketio import SocketIO
 from flask_cors import CORS
+import sys
+import os
+from pathlib import Path
+
+# Add project root to Python path
+project_root = Path(__file__).parent.parent
+sys.path.insert(0, str(project_root))
+
 from src.app_flow import AppFlow
 
 app = Flask(__name__)

@@ -1,4 +1,4 @@
-from dsl.dslMapping import DslMapping
+from src.dsl.dslMapping import DslMapping
 from pydantic import BaseModel, Field
 from typing import List, Optional
 from anthropic import AnthropicVertex

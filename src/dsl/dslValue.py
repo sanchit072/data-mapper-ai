@@ -1,7 +1,7 @@
 from typing import List, Optional
 
 from pydantic import BaseModel, Field
-from dsl.dslBase import DslBase
+from src.dsl.dslBase import DslBase
 
 class DslValue(BaseModel):
     """Represents the value of a node."""

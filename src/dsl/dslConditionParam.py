@@ -1,7 +1,7 @@
 from typing import List
 
 from pydantic import BaseModel, Field
-from dsl.dslContainer import DslContainer
+from src.dsl.dslContainer import DslContainer
 
 class DslConditionParam(BaseModel):
     """Represents the parameters for a condition. It can be simple value or a condition itself."""
@@ -9,6 +9,6 @@ class DslConditionParam(BaseModel):
     container: DslContainer = Field(description="Container containing value of the param.")
     condition: "DslCondition" = Field(description="Condition, in case this is nested.")
 
-from dsl.dslCondition import DslCondition
+from src.dsl.dslCondition import DslCondition
     
     

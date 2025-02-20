@@ -1,7 +1,7 @@
 from typing import List, Optional
 
 from pydantic import BaseModel, Field
-from dsl.dslCondition import DslCondition
+from src.dsl.dslCondition import DslCondition
 
 class DslConditionContainer(BaseModel):
     """The class which contains the condition and the container to be applied if the condition is true."""
@@ -13,6 +13,6 @@ class DslConditionContainer(BaseModel):
         description="DslCondition if true, above container will be applied"
     )
 
-from dsl.dslContainer import DslContainer
+from src.dsl.dslContainer import DslContainer
     
     

@@ -11,4 +11,4 @@ class Mapping(BaseModel):
         description="List of conditions & mapping to be applied for that condition"
     )
 
-from dsl.dslConditionContainer import DslConditionContainer
+from src.dsl.dslConditionContainer import DslConditionContainer

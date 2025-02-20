@@ -1,8 +1,16 @@
+import sys
+import os
+from pathlib import Path
+
+# Add project root to Python path
+project_root = Path(__file__).parent.parent
+sys.path.insert(0, str(project_root))
+
 import base64
-from app.apis.data_feed_manager import create_connection, create_trial, deploy_connection, update_interaction
-from dsl.dslMapping import DslMapping
-from dsl_llm_call import VertexStructuredAgent
-from llm_call import LLMCaller
+from app.apis.data_feed_manager import create_connection, create_trial, update_interaction
+from src.dsl.dslMapping import DslMapping
+from src.dsl_llm_call import VertexStructuredAgent
+from src.llm_call import LLMCaller
 
 
 class AppFlow:
@@ -114,5 +122,5 @@ class AppFlow:
         carrier_data_bytes = self.carrier_data.encode('utf-8')
         carrier_data_base64 = base64.b64encode(carrier_data_bytes).decode('utf-8')
         create_trial(carrier_data_base64)
-        deploy_connection()
+        # deploy_connection()
         return "Connection has been deployed - {connection_link} and activated. Please validate the mapping and upload data to the mentioned server for end-to-end testing."
