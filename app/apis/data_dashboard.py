@@ -30,9 +30,20 @@ def send_email(recipient_email, carrier_name):
         # Create HTML email body
         html = f"""
         <html>
+        <head>
+            <style>
+                a {{
+                    color: #0066cc;
+                    text-decoration: none;
+                }}
+                a:hover {{
+                    text-decoration: underline;
+                }}
+            </style>
+        </head>
         <body>
         <p>Hello,<br><br>
-        Here is the link attached for self onboarding information at project44: link<br><br>
+        Here is the link attached for self onboarding information at project44: <a href="http://localhost:3003/" target="_blank">http://localhost:3003/</a><br><br>
         
         Thanks,<br>
         project44
@@ -101,6 +112,8 @@ def search_carrier_and_send_email(carrier_name=None):
         response = requests.post(url, headers=headers, json=payload)
         response.raise_for_status()
         data = response.json()
+
+        print(data)
 
         # If carrier_name is provided, find the specific carrier and send email
         if carrier_name:
