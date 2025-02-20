@@ -1,3 +1,4 @@
+import base64
 from app.apis.data_feed_manager import create_connection, create_trial, deploy_connection, update_interaction
 from dsl.dslMapping import DslMapping
 from dsl_llm_call import VertexStructuredAgent
@@ -109,8 +110,9 @@ class AppFlow:
         # LLM call to generate DSL
         response = self.dsl_llm_caller.get_structured_response(prompt, DslMapping)
         update_interaction(response)
-        create_trial()
+        # Convert carrier data to base64 string for trial
+        carrier_data_bytes = self.carrier_data.encode('utf-8')
+        carrier_data_base64 = base64.b64encode(carrier_data_bytes).decode('utf-8')
+        create_trial(carrier_data_base64)
         deploy_connection()
         return "Connection has been deployed - {connection_link} and activated. Please validate the mapping and upload data to the mentioned server for end-to-end testing."
-        # Take the response and make the API calls
-        # return the connection link to the carrier through the prompt
