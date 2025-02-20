@@ -9,7 +9,7 @@ load_dotenv()
 
 data_feed_manager_base_url = "http://data-feed-manager.integration.project44.com/"
 
-def create_connection():
+def create_connection(entityId):
     """
     Create a connection for a carrier using the data feed manager API
     """
@@ -23,7 +23,7 @@ def create_connection():
             'X-User-Id': APP_CONFIG["user"]["user_id"],
             'Content-Type': 'application/json'
         }
-        
+        APP_CONFIG["connection"]["entity_id"] = entityId
         # Request body
         payload = {
             "configKey": {
@@ -155,7 +155,9 @@ def publish_connection():
         response = requests.post(publish_connection_url, headers=headers, json=payload)
         response.raise_for_status()
         
-        return response.json()
+        # Generate connection link
+        connection_link = f"https://movement.project44.com/connection-manager-v2/published/{APP_CONFIG['connection']['connection_id']}"
+        return connection_link
 
     except requests.exceptions.RequestException as e:
         return {

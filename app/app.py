@@ -59,7 +59,7 @@ def create_carrier_connection():
             
         carrier_scac = request_data['carrier_scac']
         APP_CONFIG["connection"]["entity_id"] = carrier_scac
-        result = create_connection()
+        result = create_connection(carrier_scac)
         
         if isinstance(result, tuple):
             return jsonify(result[0]), result[1]

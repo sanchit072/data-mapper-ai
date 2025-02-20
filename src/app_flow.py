@@ -7,7 +7,7 @@ project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
 import base64
-from app.apis.data_feed_manager import create_connection, create_trial, update_interaction
+from app.apis.data_feed_manager import create_connection, create_trial, update_interaction, publish_connection
 from src.dsl.dslMapping import DslMapping
 from src.dsl_llm_call import VertexStructuredAgent
 from src.llm_call import LLMCaller
@@ -29,6 +29,7 @@ class AppFlow:
         self.carrier_latest_message = ""
         self.complete_chat = []
         self.carrier_data = ""
+        self.scac = ""
         self.suggested_mapping = ""
         self.llm_caller = LLMCaller()
         self.dsl_llm_caller = VertexStructuredAgent()
@@ -68,10 +69,10 @@ class AppFlow:
         # LLM call
         response = self.llm_caller.get_llm_response(prompt)
         self.update_complete_chat("system", response)
-        create_connection()
         return response
     
     def ask_permission_for_sftp_server(self):
+        self.scac = self.carrier_latest_message
         prompt = """
             You are a helpful assistant that greets the freight carrier who is going to establish an SFTP connection to share the shipment status updates.
             You have to ask the carrier for their SCAC permission to create the SFTP server for the connection.
@@ -79,6 +80,7 @@ class AppFlow:
         # LLM call
         response = self.llm_caller.get_llm_response(prompt)
         self.update_complete_chat("system", response)
+        create_connection(self.scac)
         return response
 
     def validate_credentials(self):
@@ -134,5 +136,5 @@ class AppFlow:
         carrier_data_base64 = base64.b64encode(carrier_data_bytes).decode('utf-8')
         create_trial(carrier_data_base64)
         self.stage = "complete"
-        # deploy_connection()
-        return "Connection has been deployed - {connection_link} and activated. Please validate the mapping and upload data to the mentioned server for end-to-end testing."
+        connection_link = publish_connection()
+        return f"Connection has been deployed - {connection_link} and activated. Please validate the mapping and upload data to the mentioned server for end-to-end testing."
