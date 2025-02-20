@@ -1,6 +1,8 @@
 from flask import Flask, request, jsonify
 from apis.data_dashboard import search_carrier_and_send_email
+from apis.data_feed_manager import create_connection, update_interaction
 from http import HTTPStatus
+from app.config.constants import APP_CONFIG
 
 app = Flask(__name__)
 
@@ -11,7 +13,6 @@ def home():
 @app.route("/api/carrier/send-email", methods=['POST'])
 def send_carrier_email():
     try:
-        # Get carrier name from request body
         request_data = request.get_json()
         
         if not request_data or 'carrier_name' not in request_data:
@@ -20,16 +21,68 @@ def send_carrier_email():
             }), HTTPStatus.BAD_REQUEST
             
         carrier_name = request_data['carrier_name']
+        result = search_carrier_and_send_email(carrier_name)
         
-        # Example tenant values - you might want to move these to environment variables
-        tenant_id = "1730790390858"
-        tenant_uuid = "85fbe0ad-a6e0-4e03-bbae-2b2c7005c60b"
-        user_id = "0"
+        if isinstance(result, tuple):
+            return jsonify(result[0]), result[1]
+            
+        return jsonify(result), HTTPStatus.OK
         
-        # Call search_partners with carrier name
-        result = search_carrier_and_send_email(tenant_id, tenant_uuid, user_id, carrier_name)
+    except Exception as e:
+        return jsonify({
+            'error': f'Failed to process request: {str(e)}'
+        }), HTTPStatus.INTERNAL_SERVER_ERROR
+
+@app.route("/api/carrier/create-connection", methods=['POST'])
+def create_carrier_connection():
+    try:
+        request_data = request.get_json()
         
-        # If result is a tuple, it means there was an error
+        if not request_data or 'carrier_scac' not in request_data:
+            return jsonify({
+                'error': 'carrier_scac is required in request body'
+            }), HTTPStatus.BAD_REQUEST
+            
+        carrier_scac = request_data['carrier_scac']
+        APP_CONFIG["connection"]["entity_id"] = carrier_scac
+        result = create_connection()
+        
+        if isinstance(result, tuple):
+            return jsonify(result[0]), result[1]
+            
+        return jsonify(result), HTTPStatus.OK
+        
+    except Exception as e:
+        return jsonify({
+            'error': f'Failed to process request: {str(e)}'
+        }), HTTPStatus.INTERNAL_SERVER_ERROR
+
+@app.route("/api/carrier/update-interaction", methods=['POST'])
+def update_carrier_interaction():
+    try:
+        # Get template values from request body
+        request_data = request.get_json()
+        
+        if not request_data:
+            return jsonify({
+                'error': 'Request body is required'
+            }), HTTPStatus.BAD_REQUEST
+            
+        # Check if we have a connection_id
+        if not APP_CONFIG["connection"]["connection_id"]:
+            return jsonify({
+                'error': 'No connection_id found. Please create a connection first.'
+            }), HTTPStatus.BAD_REQUEST
+            
+        response_body_template_value = request_data.get('response_body_template_value')
+        
+        if not response_body_template_value:
+            return jsonify({
+                'error': 'response_body_template_value is required'
+            }), HTTPStatus.BAD_REQUEST
+            
+        result = update_interaction(response_body_template_value)
+        
         if isinstance(result, tuple):
             return jsonify(result[0]), result[1]
             
