@@ -157,6 +157,13 @@ def publish_carrier_connection():
             'error': f'Failed to process request: {str(e)}'
         }), HTTPStatus.INTERNAL_SERVER_ERROR
 
+@socketio.on('connect')
+def handle_connect():
+    socketio.emit('message', {
+        'message': chat_response(""),
+        'sender': 'agent'
+    })
+
 @socketio.on('message')
 def handle_message(message):
     print(f"Received: {message}")
@@ -169,17 +176,21 @@ def handle_message(message):
 def chat_response(carrier_latest_message):
     flow.carrier_latest_message = carrier_latest_message
     match flow.determine_stage():
-        case "initial":
+        case "initial_ask_for_scac":
             return flow.greet_carrier()
-        case "ask_permission_for_sftp_server":
+        case "received_scac":
             return flow.ask_permission_for_sftp_server()
-        case "validate_credentials":
+        case "received_permission_for_sftp_server":
             return flow.validate_credentials()
-        case "get_carrier_file":
+        case "received_validation_for_credentials":
             return flow.get_carrier_file()
-        case "generate_mapping":
+        case "received_carrier_file":
             return flow.generate_mapping()
-        case "validate_mapping":
+        case "generated_mapping":
             return flow.validate_mapping()
-        case "generate_dsl":
+        case "validated_mapping":
             return flow.generate_dsl()
+        case "generated_dsl":
+            return flow.generate_dsl()
+        case "complete":
+            return "Chat is now closed. Thank you."

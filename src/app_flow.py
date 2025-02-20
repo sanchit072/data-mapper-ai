@@ -25,7 +25,7 @@ class AppFlow:
     # complete
 
     def __init__(self):
-        self.stage = "initial"
+        self.stage = "initial_ask_for_scac"
         self.carrier_latest_message = ""
         self.complete_chat = []
         self.carrier_data = ""
@@ -41,19 +41,20 @@ class AppFlow:
         stage_determination_prompt = """
             You are a helpful assistant that determines the stage of the conversation.
             The stages are:
-            - initial
-            - ask_permission_for_sftp_server
-            - validate_credentials
-            - get_carrier_file
-            - generate_mapping
-            - validate_mapping
-            - generate_dsl
+            - initial_ask_for_scac
+            - received_scac
+            - received_permission_for_sftp_server
+            - received_validation_for_credentials
+            - received_carrier_file
+            - generated_mapping
+            - validated_mapping
+            - generated_dsl
             - complete
 
             The current stage is: {current_stage}
             This is the complete chat history: {self.complete_chat}
 
-            Return only the stage as plain text and nothing else.
+            Return only the stage as plain text and nothing else. If stage is complete, return "complete".
         """
         # Make LLM call to determine the stage
         self.stage = self.llm_caller.get_llm_response(stage_determination_prompt)
@@ -83,10 +84,10 @@ class AppFlow:
     def validate_credentials(self):
         prompt = """
             You have to ask the carrier if these credentials for the SFTP connection are acceptable:
-            - Username: {username}
-            - Password: {password}
-            - Host: {host}
-            - Port: {port}
+            - Username: abte_tl
+            - Password: 12342avr323
+            - Host: sftp://p44-fileserver.com
+            - Port: 2222
 """
         # LLM call
         response = self.llm_caller.get_llm_response(prompt)
@@ -112,6 +113,16 @@ class AppFlow:
         self.update_complete_chat("system", response)
         return response
     
+    def validate_mapping(self):
+        prompt = """
+            You have to validate the mapping from the carrier.
+            The mapping is: {suggested_mapping}
+
+            Ask the carrier if the mapping is correct and if they have any changes to make.
+        """
+        response = self.llm_caller.get_llm_response(prompt)
+        return response
+    
     def generate_dsl(self):
         with open('prompt_store/dsl_mapping_prompt.txt', 'r') as file:
             prompt = file.read().format(carrier_data=self.carrier_data, suggested_mapping=self.suggested_mapping)
@@ -122,5 +133,6 @@ class AppFlow:
         carrier_data_bytes = self.carrier_data.encode('utf-8')
         carrier_data_base64 = base64.b64encode(carrier_data_bytes).decode('utf-8')
         create_trial(carrier_data_base64)
+        self.stage = "complete"
         # deploy_connection()
         return "Connection has been deployed - {connection_link} and activated. Please validate the mapping and upload data to the mentioned server for end-to-end testing."
