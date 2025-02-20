@@ -148,13 +148,45 @@ APP_CONFIG = {
         "httpRedirectPolicy": "NORMAL"
     },
     "trials": {
-        "description": "",
-        "displayName": "Data Mapper AI Test",
+        "connectionId": None, # Will be updated after connection creation
+        "contextId": "",
+        "trialId": None,
+        "description": "Test",
+        "displayName": "DM_TRIAL",
+        "certified": True,
+        "updateTimestamp": "2025-02-20T09:26:58.953Z",
+        "inputData": "",
+        "userId": "1701952475614",
         "interactions": [
             {
-                "requestData":"customerId,shipmentidentifier,eventType,latitude,longitude,utcTimestamp,eventStopNumber,ETA\n1660077742633,12510264,POSITION,48.910258,-123.740450,2024-11-08T16:05:00, ,2024-11-08T12:51:00"
+                "sequence": 1,
+                "requestData": "",
+                "mockResponse": "",
+                "mockFilePayload": "",
+                "benchmarkResult": {
+                    "sequence": 1,
+                    "control": "{\n\"delimiter\":\",\"\n}\n",
+                    "url": None,
+                    "header": "{}",
+                    "request": "",
+                    "rawResponse": "",
+                    "filePayload": "",
+                    "response": "",
+                    "mockResponse": "",
+                    "mockFilePayload": "",
+                    "error": None,
+                    "interactionDiff": {
+                        "sequence": 1,
+                        "control": None,
+                        "url": None,
+                        "header": None,
+                        "request": None,
+                        "response": None
+                    },
+                    "passed": True
+                }
             }
-        ]
+        ],
+        "ignoredFields": []
     }
-
-} 
+}

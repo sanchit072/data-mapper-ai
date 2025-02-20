@@ -102,13 +102,21 @@ def update_carrier_interaction():
 @app.route("/api/carrier/create-trial", methods=['POST'])
 def create_carrier_trial():
     try:
+        # Get template values from request body
+        request_data = request.get_json()
+        
+        if not request_data:
+            return jsonify({
+                'error': 'Request body is required'
+            }), HTTPStatus.BAD_REQUEST
+        
         # Check if we have a connection_id
         if not APP_CONFIG["connection"]["connection_id"]:
             return jsonify({
                 'error': 'No connection_id found. Please create a connection first.'
             }), HTTPStatus.BAD_REQUEST
             
-        result = create_trial()
+        result = create_trial(request_data.get('mock_file_payload'))
         
         if isinstance(result, tuple):
             return jsonify(result[0]), result[1]

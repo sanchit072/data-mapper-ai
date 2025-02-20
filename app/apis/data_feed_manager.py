@@ -72,17 +72,16 @@ def update_interaction(response_body_template_value=None):
         }
         
         # Get current interaction metadata
-        interaction_metadata = APP_CONFIG["interaction"]
+        update_interaction_payload = APP_CONFIG["interaction"]
         
         # Update template values if provided
         if response_body_template_value:
-            interaction_metadata["metaData"]["responseBodyTemplate"]["dslTemplateValue"] = response_body_template_value
+            update_interaction_payload["metaData"]["responseBodyTemplate"]["dslTemplateValue"] = response_body_template_value
         
 
         # Make the API call
-        response = requests.put(update_interaction_url, headers=headers, json=interaction_metadata)
+        response = requests.put(update_interaction_url, headers=headers, json=update_interaction_payload)
         response.raise_for_status()
-        print(response.json())
         return response.json()
 
     except requests.exceptions.RequestException as e:
@@ -94,7 +93,7 @@ def update_interaction(response_body_template_value=None):
             'error': f'Internal server error: {str(e)}'
         }, HTTPStatus.INTERNAL_SERVER_ERROR
 
-def create_trial():
+def create_trial(mock_file_payload=None):
     """
     Create a trial for a connection using the data feed manager API
     """
@@ -110,14 +109,13 @@ def create_trial():
         }
         
         # Request body from APP_CONFIG
-        payload = {
-            "description": APP_CONFIG["trials"]["description"],
-            "displayName": APP_CONFIG["trials"]["displayName"],
-            "interactions": APP_CONFIG["trials"]["interactions"]
-        }
+        add_trial_payload = APP_CONFIG["trials"]
+        # add_trial_payload["connectionId"] = APP_CONFIG["connection"]["connection_id"]
+        add_trial_payload["connectionId"] = "TL.SHIPMENT_STATUS_CSV.CARRIER_PUSH.IJKL"
+        add_trial_payload["interactions"][0]["mockFilePayload"] = mock_file_payload
 
         # Make the API call
-        response = requests.post(create_trial_url, headers=headers, json=payload)
+        response = requests.post(create_trial_url, headers=headers, json=add_trial_payload)
         response.raise_for_status()
         
         return response.json()
@@ -130,6 +128,3 @@ def create_trial():
         return {
             'error': f'Internal server error: {str(e)}'
         }, HTTPStatus.INTERNAL_SERVER_ERROR
-    
-def deploy_connection():
-    return ""
