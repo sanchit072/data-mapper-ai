@@ -130,3 +130,6 @@ def create_trial():
         return {
             'error': f'Internal server error: {str(e)}'
         }, HTTPStatus.INTERNAL_SERVER_ERROR
+    
+def deploy_connection():
+    return ""

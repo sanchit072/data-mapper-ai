@@ -1,4 +1,6 @@
-from app.apis.data_feed_manager import create_connection
+from app.apis.data_feed_manager import create_connection, create_trial, deploy_connection, update_interaction
+from dsl.dslMapping import DslMapping
+from dsl_llm_call import VertexStructuredAgent
 from llm_call import LLMCaller
 
 
@@ -18,7 +20,9 @@ class AppFlow:
         self.carrier_latest_message = ""
         self.complete_chat = []
         self.carrier_data = ""
+        self.suggested_mapping = ""
         self.llm_caller = LLMCaller()
+        self.dsl_llm_caller = VertexStructuredAgent()
 
     def update_complete_chat(self, role, message):
         self.complete_chat.append({"role": role, "content": message})
@@ -52,7 +56,7 @@ class AppFlow:
             You have to ask the carrier for their SCAC.
 """
         # LLM call
-        response = ""
+        response = self.llm_caller.get_llm_response(prompt)
         self.update_complete_chat("system", response)
         create_connection()
         return response
@@ -63,7 +67,7 @@ class AppFlow:
             You have to ask the carrier for their SCAC permission to create the SFTP server for the connection.
 """
         # LLM call
-        response = ""
+        response = self.llm_caller.get_llm_response(prompt)
         self.update_complete_chat("system", response)
         return response
 
@@ -76,7 +80,7 @@ class AppFlow:
             - Port: {port}
 """
         # LLM call
-        response = ""
+        response = self.llm_caller.get_llm_response(prompt)
         self.update_complete_chat("system", response)
         return response
     
@@ -86,21 +90,27 @@ class AppFlow:
             Also ask the carrier if the file contains headers and what is the delimiter used in the file.
 """
         # LLM call
-        response = ""
+        response = self.llm_caller.get_llm_response(prompt)
         self.update_complete_chat("system", response)
         self.carrier_data = response
         return response
 
     def generate_mapping(self):
-        prompt = """
-            Based on the carrier's file format and specifications, suggest a mapping between their fields
-            and our standardized fields. Ask for confirmation of the mapping.
-"""
-        response = ""
+        with open('prompt_store/mapping_prompt.txt', 'r') as file:
+            prompt = file.read().format(carrier_data=self.carrier_data)
+        response = self.llm_caller.get_llm_response(prompt)
+        self.suggested_mapping = response
         self.update_complete_chat("system", response)
         return response
     
     def generate_dsl(self):
+        with open('prompt_store/dsl_mapping_prompt.txt', 'r') as file:
+            prompt = file.read().format(carrier_data=self.carrier_data, suggested_mapping=self.suggested_mapping)
         # LLM call to generate DSL
+        response = self.dsl_llm_caller.get_structured_response(prompt, DslMapping)
+        update_interaction(response)
+        create_trial()
+        deploy_connection()
+        return "Connection has been deployed - {connection_link} and activated. Please validate the mapping and upload data to the mentioned server for end-to-end testing."
         # Take the response and make the API calls
         # return the connection link to the carrier through the prompt

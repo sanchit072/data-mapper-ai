@@ -1,0 +1,8 @@
+This is the carrier file that we have to map to the output format.
+
+{carrier_data}
+
+This is the suggested mapping.
+{suggested_mapping}
+
+Use my models and generate the DSL output.

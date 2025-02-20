@@ -6,77 +6,21 @@ import json
 import os
 
 mapping_prompt = """
-This is the carrier file that we have to map to the output format.
-
-<record>
-	<Load>
-        1234
-	</Load>
-	<PRO>
-		119958687
-	</PRO>
-	<BOL>
-	</BOL>
-	<SCAC>
-		TXOK
-	</SCAC>
-	<field4>
-		44.8833
-	</field4>
-	<field5>
-		-93.1333
-	</field5>
-	<TimeStamp>
-		1/13/2021 9:45
-	</TimeStamp>
-	<LocationCity>
-		EAGAN
-	</LocationCity>
-	<LocationState>
-		MN
-	</LocationState>
-	<DeliveredDate>
-	</DeliveredDate>
-	<CUSTID>
-		REYROIL
-	</CUSTID>
-</record>
-
-This is the JSON mapping.
-{
-	"latitude":"44.8833",
-	"longitude":"-93.1333",
-	"customerId":"REYROIL",
-	"carrierIdentifier":{
-		"type":"SCAC",
-		"value":"TXOK"
-	},
-	"shipmentIdentifiers":[{
-		"type":"ORDER",
-		"value":"119958687"
-	},
-	{
-		"type":"BILL_OF_LADING",
-		"value":""
-	}
-	]
-}
-
-Use my python models and generate the DSL output.
 """
 
-def format_model_schema(model_class: type[BaseModel]) -> str:
-    """Convert Pydantic model to a prompt-friendly schema description"""
-    schema = model_class.model_json_schema()
-    return json.dumps(schema, indent=2)
-
 class VertexStructuredAgent:
-    def __init__(self, location: str, project_id: str):
+    def __init__(self, project_id="hackathon-2025-450908", location="us-central1"):
         self.client = AnthropicVertex(
             region=location,
             project_id=project_id
         )
         
+    def format_model_schema(model_class: type[BaseModel]) -> str:
+        """Convert Pydantic model to a prompt-friendly schema description"""
+        schema = model_class.model_json_schema()
+        return json.dumps(schema, indent=2)
+
+
     def get_structured_response(self, 
                               user_input: str, 
                               response_model: type[BaseModel]) -> BaseModel:
@@ -130,7 +74,7 @@ class VertexStructuredAgent:
         
         prompt = f"""Please provide your response in JSON format that exactly matches this schema:
         
-        {format_model_schema(response_model)}
+        {self.format_model_schema(response_model)}
         
         The JSON must be valid and match all types and constraints. A few examples to show you how to do it:
 
@@ -174,19 +118,3 @@ class VertexStructuredAgent:
             raise ValueError("No JSON object found in response")
         except json.JSONDecodeError:
             raise ValueError("Invalid JSON in response")
-
-# Example usage
-agent = VertexStructuredAgent(
-    location="us-east5",
-    project_id="hackathon-2025-450908"
-)
-
-try:
-    response = agent.get_structured_response(
-        mapping_prompt,
-        DslMapping
-    )
-    print(response)
-        
-except ValueError as e:
-    print(f"Error getting structured response: {e}")
