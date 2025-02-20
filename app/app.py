@@ -1,11 +1,13 @@
 from flask import Flask, request, jsonify
 from apis.data_dashboard import search_carrier_and_send_email
-from apis.data_feed_manager import create_connection, update_interaction
+from apis.data_feed_manager import create_connection, update_interaction, create_trial
 from http import HTTPStatus
 from config.constants import APP_CONFIG
 from flask_socketio import SocketIO
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 socketio = SocketIO(app, cors_allowed_origins="*", logger=True)
 
 @app.route("/")
@@ -95,8 +97,31 @@ def update_carrier_interaction():
             'error': f'Failed to process request: {str(e)}'
         }), HTTPStatus.INTERNAL_SERVER_ERROR
 
+@app.route("/api/carrier/create-trial", methods=['POST'])
+def create_carrier_trial():
+    try:
+        # Check if we have a connection_id
+        if not APP_CONFIG["connection"]["connection_id"]:
+            return jsonify({
+                'error': 'No connection_id found. Please create a connection first.'
+            }), HTTPStatus.BAD_REQUEST
+            
+        result = create_trial()
+        
+        if isinstance(result, tuple):
+            return jsonify(result[0]), result[1]
+            
+        return jsonify(result), HTTPStatus.OK
+        
+    except Exception as e:
+        return jsonify({
+            'error': f'Failed to process request: {str(e)}'
+        }), HTTPStatus.INTERNAL_SERVER_ERROR
+
 @socketio.on('message')
 def handle_message(message):
     print(f"Received: {message}")
-    socketio.emit('response', f"Echo: {message}")
-    return f"Echo: {message}"
+    socketio.emit('message', {
+        'message': f"Echo: {message}",
+        'sender': 'agent'
+    })
