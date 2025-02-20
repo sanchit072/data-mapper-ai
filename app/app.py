@@ -5,10 +5,12 @@ from http import HTTPStatus
 from config.constants import APP_CONFIG
 from flask_socketio import SocketIO
 from flask_cors import CORS
+from src.app_flow import AppFlow
 
 app = Flask(__name__)
 CORS(app)
 socketio = SocketIO(app, cors_allowed_origins="*", logger=True)
+flow = AppFlow()
 
 @app.route("/")
 def home():
@@ -121,6 +123,16 @@ def create_carrier_trial():
 @socketio.on('message')
 def handle_message(message):
     print(f"Received: {message}")
+    socketio.emit('response', f"Echo: {message}")
+    return f"Echo: {message}"
+
+def chat_response(carrier_latest_message):
+    flow.carrier_latest_message = carrier_latest_message
+    match flow.determine_stage():
+        case "initial":
+            return flow.greet_carrier()
+        case _: 
+            return flow.process_response()
     socketio.emit('message', {
         'message': f"Echo: {message}",
         'sender': 'agent'
