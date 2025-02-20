@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 from app.apis.data_dashboard import search_carrier_and_send_email
-from app.apis.data_feed_manager import create_connection, update_interaction, create_trial
+from app.apis.data_feed_manager import create_connection, update_interaction, create_trial, publish_connection
 from http import HTTPStatus
 from app.config.constants import APP_CONFIG
 from flask_socketio import SocketIO
@@ -125,6 +125,27 @@ def create_carrier_trial():
             }), HTTPStatus.BAD_REQUEST
             
         result = create_trial(request_data.get('mock_file_payload'))
+        
+        if isinstance(result, tuple):
+            return jsonify(result[0]), result[1]
+            
+        return jsonify(result), HTTPStatus.OK
+        
+    except Exception as e:
+        return jsonify({
+            'error': f'Failed to process request: {str(e)}'
+        }), HTTPStatus.INTERNAL_SERVER_ERROR
+
+@app.route("/api/carrier/publish-connection", methods=['POST'])
+def publish_carrier_connection():
+    try:
+        # Check if we have a connection_id
+        if not APP_CONFIG["connection"]["connection_id"]:
+            return jsonify({
+                'error': 'No connection_id found. Please create a connection first.'
+            }), HTTPStatus.BAD_REQUEST
+            
+        result = publish_connection()
         
         if isinstance(result, tuple):
             return jsonify(result[0]), result[1]
