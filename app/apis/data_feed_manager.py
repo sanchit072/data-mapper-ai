@@ -3,7 +3,7 @@ from flask import jsonify
 from http import HTTPStatus
 import os
 from dotenv import load_dotenv
-from app.config.constants import APP_CONFIG
+from config.constants import APP_CONFIG
 
 load_dotenv()
 

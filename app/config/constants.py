@@ -18,19 +18,19 @@ APP_CONFIG = {
         "sequence": 1,
         "metaData": {
             "connectionType": "DROP_EVENT",
-            "encryptionProtocol": null,
+            "encryptionProtocol": None,
             "httpMethod": "GET",
-            "httpClientVersion": null,
+            "httpClientVersion": None,
             "httpStatusesToIgnore": [],
             "contentType": "CSV",
-            "paginationRequired": false,
-            "responseSchema": null,
-            "rootNodeName": null,
+            "paginationRequired": False,
+            "responseSchema": None,
+            "rootNodeName": None,
             "uriTemplate": {
                 "type": "DSL",
                 "templateName": "uriTemplate_1.ftl",
-                "templateValue": null,
-                "webhookConfig": null,
+                "templateValue": None,
+                "webhookConfig": None,
                 "dslTemplateName": "uriDslTemplate_1.json",
                 "dslTemplateValue": {
                     "format": "JSON",
@@ -68,43 +68,43 @@ APP_CONFIG = {
                     ]
                 },
                 "executionOrder": [],
-                "realizedTemplate": null
+                "realizedTemplate": None
             },
             "headerTemplate": {
-                "type": null,
+                "type": None,
                 "templateName": "headerTemplate_1.ftl",
-                "templateValue": null,
-                "webhookConfig": null,
+                "templateValue": None,
+                "webhookConfig": None,
                 "dslTemplateName": "headerDslTemplate_1.json",
-                "dslTemplateValue": null,
+                "dslTemplateValue": None,
                 "executionOrder": [],
-                "realizedTemplate": null
+                "realizedTemplate": None
             },
             "requestBodyTemplate": {
-                "type": null,
+                "type": None,
                 "templateName": "requestBodyTemplate_1.ftl",
-                "templateValue": null,
-                "webhookConfig": null,
+                "templateValue": None,
+                "webhookConfig": None,
                 "dslTemplateName": "requestBodyDslTemplate_1.json",
-                "dslTemplateValue": null,
+                "dslTemplateValue": None,
                 "executionOrder": [],
-                "realizedTemplate": null
+                "realizedTemplate": None
             },
             "responseBodyTemplate": {
                 "type": "DSL",
                 "templateName": "responseBodyTemplate_1.ftl",
-                "templateValue": null,
-                "webhookConfig": null,
+                "templateValue": None,
+                "webhookConfig": None,
                 "dslTemplateName": "responseBodyDslTemplate_1.json",
-                "dslTemplateValue": null,
+                "dslTemplateValue": None,
                 "executionOrder": [],
-                "realizedTemplate": null
+                "realizedTemplate": None
             },
             "controlTemplate": {
                 "type": "DSL",
                 "templateName": "controlTemplate_1.ftl",
-                "templateValue": null,
-                "webhookConfig": null,
+                "templateValue": None,
+                "webhookConfig": None,
                 "dslTemplateName": "controlDslTemplate_1.json",
                 "dslTemplateValue": {
                     "format": "JSON",
@@ -141,7 +141,7 @@ APP_CONFIG = {
                     ]
                 },
                 "executionOrder": [],
-                "realizedTemplate": null
+                "realizedTemplate": None
             }
         },
         "direction": "BOTH",

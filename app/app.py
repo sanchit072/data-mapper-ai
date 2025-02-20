@@ -2,9 +2,11 @@ from flask import Flask, request, jsonify
 from apis.data_dashboard import search_carrier_and_send_email
 from apis.data_feed_manager import create_connection, update_interaction
 from http import HTTPStatus
-from app.config.constants import APP_CONFIG
+from config.constants import APP_CONFIG
+from flask_socketio import SocketIO
 
 app = Flask(__name__)
+socketio = SocketIO(app, cors_allowed_origins="*", logger=True)
 
 @app.route("/")
 def home():
@@ -93,5 +95,8 @@ def update_carrier_interaction():
             'error': f'Failed to process request: {str(e)}'
         }), HTTPStatus.INTERNAL_SERVER_ERROR
 
-if __name__ == '__main__':
-    app.run(debug=True)
+@socketio.on('message')
+def handle_message(message):
+    print(f"Received: {message}")
+    socketio.emit('response', f"Echo: {message}")
+    return f"Echo: {message}"

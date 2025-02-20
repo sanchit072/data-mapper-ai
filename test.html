@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Socket.IO Test</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+</head>
+<body>
+    <button onclick="sendMessage()">Send Test Message</button>
+    <div id="messages"></div>
+
+    <script>
+        const socket = io('http://localhost:5000');
+
+        socket.on('connect', () => {
+            console.log('Connected to server');
+            document.getElementById('messages').innerHTML += '<p>Connected to server</p>';
+        });
+
+        socket.on('response', (data) => {
+            console.log('Received:', data);
+            document.getElementById('messages').innerHTML += `<p>Received: ${data}</p>`;
+        });
+
+        function sendMessage() {
+            socket.emit('message', 'Hello Server!');
+            document.getElementById('messages').innerHTML += '<p>Sent: Hello Server!</p>';
+        }
+    </script>
+</body>
+</html> 
