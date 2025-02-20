@@ -157,12 +157,12 @@ def publish_carrier_connection():
             'error': f'Failed to process request: {str(e)}'
         }), HTTPStatus.INTERNAL_SERVER_ERROR
 
-@socketio.on('connect')
-def handle_connect():
-    socketio.emit('message', {
-        'message': chat_response(""),
-        'sender': 'agent'
-    })
+# @socketio.on('connect')
+# def handle_connect():
+#     socketio.emit('message', {
+#         'message': chat_response(""),
+#         'sender': 'agent'
+#     })
 
 @socketio.on('message')
 def handle_message(message):
@@ -175,10 +175,11 @@ def handle_message(message):
 
 def chat_response(carrier_latest_message):
     flow.carrier_latest_message = carrier_latest_message
+    return flow.generate_dsl()
     match flow.determine_stage():
         case "initial_ask_for_scac":
             return flow.greet_carrier()
-        case "received_scac":
+        case "received_scac_from_carrier":
             return flow.ask_permission_for_sftp_server()
         case "received_permission_for_sftp_server":
             return flow.validate_credentials()

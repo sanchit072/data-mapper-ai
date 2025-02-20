@@ -9,17 +9,17 @@ mapping_prompt = """
 """
 
 class VertexStructuredAgent:
-    def __init__(self, project_id="hackathon-2025-450908", location="us-central1"):
+    def __init__(self, project_id="hackathon-2025-450908", location="us-east5"):
         self.client = AnthropicVertex(
             region=location,
             project_id=project_id
         )
         
+    @staticmethod
     def format_model_schema(model_class: type[BaseModel]) -> str:
         """Convert Pydantic model to a prompt-friendly schema description"""
         schema = model_class.model_json_schema()
         return json.dumps(schema, indent=2)
-
 
     def get_structured_response(self, 
                               user_input: str, 
@@ -74,7 +74,7 @@ class VertexStructuredAgent:
         
         prompt = f"""Please provide your response in JSON format that exactly matches this schema:
         
-        {self.format_model_schema(response_model)}
+        {VertexStructuredAgent.format_model_schema(response_model)}
         
         The JSON must be valid and match all types and constraints. A few examples to show you how to do it:
 
