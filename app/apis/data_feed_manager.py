@@ -4,6 +4,7 @@ from http import HTTPStatus
 import os
 from dotenv import load_dotenv
 from app.config.constants import APP_CONFIG
+import json
 
 load_dotenv()
 
@@ -23,7 +24,7 @@ def create_connection(entityId):
             'X-User-Id': APP_CONFIG["user"]["user_id"],
             'Content-Type': 'application/json'
         }
-        APP_CONFIG["connection"]["entity_id"] = entityId
+        # APP_CONFIG["connection"]["entity_id"] = entityId
         # Request body
         payload = {
             "configKey": {
@@ -42,8 +43,8 @@ def create_connection(entityId):
         
         # Save connectionId to APP_CONFIG
         response_data = response.json()
-        if 'connectionId' in response_data:
-            APP_CONFIG["connection"]["connection_id"] = response_data["connectionId"]
+        # if 'connectionId' in response_data:
+        #     APP_CONFIG["connection"]["connection_id"] = response_data["connectionId"]
         
         return response_data
 
@@ -76,19 +77,31 @@ def update_interaction(response_body_template_value=None):
         
         # Update template values if provided
         if response_body_template_value:
+            # Convert string to JSON if it's a string
+            if isinstance(response_body_template_value, str):
+                try:
+                    response_body_template_value = json.loads(response_body_template_value)
+                    print(response_body_template_value)
+                except json.JSONDecodeError as e:
+                    return {
+                        'error': f'Invalid JSON string: {str(e)}'
+                    }, HTTPStatus.BAD_REQUEST
+                    
             update_interaction_payload["metaData"]["responseBodyTemplate"]["dslTemplateValue"] = response_body_template_value
         
-
         # Make the API call
         response = requests.put(update_interaction_url, headers=headers, json=update_interaction_payload)
         response.raise_for_status()
+        print(response.json())
         return response.json()
 
     except requests.exceptions.RequestException as e:
+        print(str(e))
         return {
             'error': f'API request failed: {str(e)}'
         }, HTTPStatus.INTERNAL_SERVER_ERROR
     except Exception as e:
+        print(str(e))
         return {
             'error': f'Internal server error: {str(e)}'
         }, HTTPStatus.INTERNAL_SERVER_ERROR
@@ -121,10 +134,12 @@ def create_trial(mock_file_payload=None):
         return response.json()
 
     except requests.exceptions.RequestException as e:
+        print(str(e))
         return {
             'error': f'API request failed: {str(e)}'
         }, HTTPStatus.INTERNAL_SERVER_ERROR
     except Exception as e:
+        print(str(e))
         return {
             'error': f'Internal server error: {str(e)}'
         }, HTTPStatus.INTERNAL_SERVER_ERROR
