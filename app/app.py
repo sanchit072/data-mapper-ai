@@ -175,7 +175,7 @@ def handle_message(message):
 
 def chat_response(carrier_latest_message):
     flow.carrier_latest_message = carrier_latest_message
-    return flow.generate_dsl()
+    # return flow.generate_dsl()
     match flow.determine_stage():
         case "initial_ask_for_scac":
             return flow.greet_carrier()

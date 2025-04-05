@@ -100,7 +100,8 @@ class VertexStructuredAgent:
             # Extract JSON from response (handles cases where Claude might add explanatory text)
             json_str = self._extract_json(response.content[0].text)
             # Parse and validate against the model
-            return response_model.model_validate_json(json_str)
+            return {"dsl": response.content[0].text, "model": response_model.model_validate_json(json_str)}
+
         except Exception as e:
             raise ValueError(f"Failed to parse response into expected model: {str(e)}")
             

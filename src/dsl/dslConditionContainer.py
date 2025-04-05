@@ -10,6 +10,7 @@ class DslConditionContainer(BaseModel):
         description="Container for the value of a node"
     )
     condition: Optional[DslCondition] = Field(
+        default=None,
         description="DslCondition if true, above container will be applied"
     )
 
