@@ -1,0 +1,416 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "DSL Mapping Schema",
+        "description": "DSL",
+        "version": "1.0.0"
+    },
+    "components": {
+        "schemas": {
+            "DslForEach": {
+                "type": "object",
+                "properties": {
+                    "base": {
+                        "type": "string",
+                        "enum": [
+                            "NO_BASE",
+                            "LOCAL_VAR",
+                            "REQUEST_BODY",
+                            "INTERACTION_1_CONTROL_BODY",
+                            "INTERACTION_2_CONTROL_BODY",
+                            "INTERACTION_3_CONTROL_BODY",
+                            "INTERACTION_4_CONTROL_BODY",
+                            "INTERACTION_5_CONTROL_BODY",
+                            "INTERACTION_6_CONTROL_BODY",
+                            "INTERACTION_1_HEADER_BODY",
+                            "INTERACTION_2_HEADER_BODY",
+                            "INTERACTION_3_HEADER_BODY",
+                            "INTERACTION_4_HEADER_BODY",
+                            "INTERACTION_5_HEADER_BODY",
+                            "INTERACTION_6_HEADER_BODY",
+                            "INTERACTION_1_REQUEST_BODY",
+                            "INTERACTION_2_REQUEST_BODY",
+                            "INTERACTION_3_REQUEST_BODY",
+                            "INTERACTION_4_REQUEST_BODY",
+                            "INTERACTION_5_REQUEST_BODY",
+                            "INTERACTION_6_REQUEST_BODY",
+                            "INTERACTION_1_RESPONSE_BODY",
+                            "INTERACTION_2_RESPONSE_BODY",
+                            "INTERACTION_3_RESPONSE_BODY",
+                            "INTERACTION_4_RESPONSE_BODY",
+                            "INTERACTION_5_RESPONSE_BODY",
+                            "INTERACTION_6_RESPONSE_BODY"
+                        ]
+                    },
+                    "jsonpath": {
+                        "type": "string"
+                    },
+                    "xpath": {
+                        "type": "string"
+                    }
+                }
+            },
+            "DslTranslation": {
+                "type": "object",
+                "properties": {
+                    "tableName": {
+                        "type": "string"
+                    },
+                    "value": {
+                        "$ref": "#/components/schemas/DslValue"
+                    },
+                    "defaultValue": {
+                        "$ref": "#/components/schemas/DslValue"
+                    }
+                }
+            },
+            "DslFunction": {
+                "type": "object",
+                "properties": {
+                    "predefinedFunction": {
+                        "type": "string",
+                        "enum": [
+                            "LIBRARY",
+                            "TO_LIST",
+                            "REPLACE",
+                            "SPLIT",
+                            "NUMBER",
+                            "CONCAT",
+                            "SUBSTRING",
+                            "JOIN",
+                            "INSERT",
+                            "REMOVE",
+                            "TRIM"
+                        ]
+                    },
+                    "libraryFunction": {
+                        "type": "string"
+                    }
+                }
+            },
+            "DslTransformation": {
+                "type": "object",
+                "properties": {
+                    "function": {
+                        "$ref": "#/components/schemas/DslFunction"
+                    },
+                    "containerList": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/DslContainer"
+                        }
+                    }
+                }
+            },
+            "DslConditionContainer": {
+                "type": "object",
+                "properties": {
+                    "container": {
+                        "$ref": "#/components/schemas/DslContainer"
+                    },
+                    "condition": {
+                        "$ref": "#/components/schemas/DslCondition"
+                    }
+                }
+            },
+            "Mapping": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "includeInOutput": {
+                        "type": "boolean"
+                    },
+                    "conditionList": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/DslConditionContainer"
+                        }
+                    }
+                }
+            },
+            "DslScript": {
+                "type": "object",
+                "properties": {
+                    "parameters": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Mapping"
+                        }
+                    },
+                    "code": {
+                        "type": "string"
+                    }
+                }
+            },
+            "DslValue": {
+                "type": "object",
+                "properties": {
+                    "base": {
+                        "type": "string",
+                        "enum": [
+                            "NO_BASE",
+                            "LOCAL_VAR",
+                            "REQUEST_BODY",
+                            "INTERACTION_1_CONTROL_BODY",
+                            "INTERACTION_2_CONTROL_BODY",
+                            "INTERACTION_3_CONTROL_BODY",
+                            "INTERACTION_4_CONTROL_BODY",
+                            "INTERACTION_5_CONTROL_BODY",
+                            "INTERACTION_6_CONTROL_BODY",
+                            "INTERACTION_1_HEADER_BODY",
+                            "INTERACTION_2_HEADER_BODY",
+                            "INTERACTION_3_HEADER_BODY",
+                            "INTERACTION_4_HEADER_BODY",
+                            "INTERACTION_5_HEADER_BODY",
+                            "INTERACTION_6_HEADER_BODY",
+                            "INTERACTION_1_REQUEST_BODY",
+                            "INTERACTION_2_REQUEST_BODY",
+                            "INTERACTION_3_REQUEST_BODY",
+                            "INTERACTION_4_REQUEST_BODY",
+                            "INTERACTION_5_REQUEST_BODY",
+                            "INTERACTION_6_REQUEST_BODY",
+                            "INTERACTION_1_RESPONSE_BODY",
+                            "INTERACTION_2_RESPONSE_BODY",
+                            "INTERACTION_3_RESPONSE_BODY",
+                            "INTERACTION_4_RESPONSE_BODY",
+                            "INTERACTION_5_RESPONSE_BODY",
+                            "INTERACTION_6_RESPONSE_BODY"
+                        ]
+                    },
+                    "constantValue": {
+                        "type": "string"
+                    },
+                    "xpath": {
+                        "type": "string"
+                    },
+                    "jsonpath": {
+                        "type": "string"
+                    },
+                    "translation": {
+                        "$ref": "#/components/schemas/DslTranslation"
+                    },
+                    "transformation": {
+                        "$ref": "#/components/schemas/DslTransformation"
+                    },
+                    "script": {
+                        "$ref": "#/components/schemas/DslScript"
+                    },
+                    "defaultValue": {
+                        "type": "string"
+                    }
+                }
+            },
+            "DslContainer": {
+                "type": "object",
+                "properties": {
+                    "forEach": {
+                        "$ref": "#/components/schemas/DslForEach"
+                    },
+                    "dataType": {
+                        "type": "string",
+                        "enum": [
+                            "STRING",
+                            "INT",
+                            "LIST",
+                            "OBJECT",
+                            "BOOL"
+                        ]
+                    },
+                    "value": {
+                        "$ref": "#/components/schemas/DslValue"
+                    },
+                    "children": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Mapping"
+                        }
+                    },
+                    "container": {
+                        "$ref": "#/components/schemas/DslContainer"
+                    }
+                }
+            },
+            "DslConditionParam": {
+                "type": "object",
+                "properties": {
+                    "container": {
+                        "$ref": "#/components/schemas/DslContainer"
+                    },
+                    "condition": {
+                        "$ref": "#/components/schemas/DslCondition"
+                    }
+                }
+            },
+            "DslCondition": {
+                "type": "object",
+                "properties": {
+                    "operator": {
+                        "type": "string",
+                        "enum": [
+                            "EQ",
+                            "NE",
+                            "GT",
+                            "LT",
+                            "GE",
+                            "LE",
+                            "HAS_CONTENT",
+                            "EXISTS",
+                            "CONTAINS",
+                            "OR",
+                            "AND"
+                        ]
+                    },
+                    "conditionParamList": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/DslConditionParam"
+                        }
+                    }
+                }
+            },
+            "DslConditionalMapping": {
+                "type": "object",
+                "properties": {
+                    "condition": {
+                        "$ref": "#/components/schemas/DslCondition"
+                    },
+                    "mappingList": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Mapping"
+                        }
+                    },
+                    "stringMapping": {
+                        "$ref": "#/components/schemas/DslValue"
+                    }
+                }
+            },
+            "DslThrowException": {
+                "type": "object",
+                "properties": {
+                    "errorCode": {
+                        "type": "string"
+                    },
+                    "errorMessage": {
+                        "type": "string"
+                    },
+                    "errorTag": {
+                        "type": "string"
+                    }
+                }
+            },
+            "DslSkipInteraction": {
+                "type": "object",
+                "properties": {
+                    "targetInteractionNumber": {
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                }
+            },
+            "DslValidationAction": {
+                "type": "object",
+                "properties": {
+                    "throwException": {
+                        "$ref": "#/components/schemas/DslThrowException"
+                    },
+                    "skipInteraction": {
+                        "$ref": "#/components/schemas/DslSkipInteraction"
+                    }
+                }
+            },
+            "DslValidation": {
+                "type": "object",
+                "properties": {
+                    "condition": {
+                        "$ref": "#/components/schemas/DslCondition"
+                    },
+                    "action": {
+                        "$ref": "#/components/schemas/DslValidationAction"
+                    }
+                }
+            },
+            "ConditionPreProcessBlock": {
+                "type": "object",
+                "properties": {
+                    "condition": {
+                        "$ref": "#/components/schemas/DslCondition"
+                    },
+                    "preProcessingEntityList": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/PreProcessingEntity"
+                        }
+                    }
+                }
+            },
+            "PreProcessLoop": {
+                "type": "object",
+                "properties": {
+                    "forEach": {
+                        "$ref": "#/components/schemas/DslForEach"
+                    },
+                    "preProcessingEntityList": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/PreProcessingEntity"
+                        }
+                    }
+                }
+            },
+            "PreProcessingEntity": {
+                "type": "object",
+                "properties": {
+                    "mapping": {
+                        "$ref": "#/components/schemas/Mapping"
+                    },
+                    "conditionPreProcessBlockList": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ConditionPreProcessBlock"
+                        }
+                    },
+                    "preProcessLoop": {
+                        "$ref": "#/components/schemas/PreProcessLoop"
+                    }
+                }
+            },
+            "DslMapping": {
+                "type": "object",
+                "properties": {
+                    "format": {
+                        "type": "string",
+                        "enum": [
+                            "JSON",
+                            "XML",
+                            "STRING"
+                        ]
+                    },
+                    "headers": {
+                        "$ref": "#/components/schemas/DslConditionalMapping"
+                    },
+                    "validationList": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/DslValidation"
+                        }
+                    },
+                    "preProcessList": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/PreProcessingEntity"
+                        }
+                    },
+                    "conditionalMappingList": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/DslConditionalMapping"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
